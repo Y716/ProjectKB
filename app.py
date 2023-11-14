@@ -13,11 +13,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import datetime
 import streamlit as st
 
-from .packages.search_song import search_song
-from .packages.run_recommender import get_feature_vector, show_similar_songs
+from packages.search_song import search_song
+from packages.run_recommender import get_feature_vector, show_similar_songs
 
 # load data
 dat = pd.read_csv('data/processed/dat_for_recommender.csv')
