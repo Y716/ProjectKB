@@ -121,9 +121,7 @@ def radar_chart(dat, features_list):
     fig.update_layout(
         {"uirevision": "foo"}, 
         overwrite=True,
-        polar=layoutdict,
-        showlegend=True,
-        template='plotly_dark'
+        
         )
     angles = list(dat[features_list].columns)
     angles.append(angles[0])
