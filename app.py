@@ -103,7 +103,7 @@ def main():
             st.pyplot(fig_bar)
             
             #Menampilkan perbandingan radar chart antara lagu yang dimasukkan dengan 5 lagu teratas
-            fig_radar = radar_chart(comparison_dat, (song_features_normalized + song_features_not_normalized))
+            fig_radar = radar_chart(comparison_dat, features)
             st.markdown("### Gambaran Kemiripan Ciri-Ciri lagumu dengan Rekomendasinya!") 
             st.plotly_chart(fig_radar)
 
