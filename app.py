@@ -22,7 +22,7 @@ from packages.run_recommender import get_feature_vector, show_similar_songs, rad
 
 # load data
 dat = pd.read_csv('data/Processed/dat_for_recommender.csv')
-comparison_dat = pd.read_csv('data/Raw/data.csv')
+comparison_dat = pd.read_csv('data/Raw/comparison_data.csv')
 
 song_features_normalized = ['valence', 'acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness']
 song_features_not_normalized = ['duration_ms', 'key', 'loudness', 'mode', 'tempo']
