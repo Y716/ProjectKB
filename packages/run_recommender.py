@@ -118,10 +118,7 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
 def radar_chart(dat, features_list):
     # Membuat Radar Chart
     fig = go.Figure()
-    fig.update_layout(
-        {"uirevision": "foo"}, 
-        overwrite=True,
-        )
+    
     angles = list(dat[features_list].columns)
     angles.append(angles[0])
     layoutdict = dict(
