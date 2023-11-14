@@ -1,8 +1,12 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.graph_objects as go
+import numpy as np
 sns.set_palette("Set2")
 from wordcloud import WordCloud
 from sklearn.metrics.pairwise import cosine_similarity
+
+names = []
 
 def get_feature_vector(song_name, year, dat, features_list):
     print(dat.head())
@@ -19,21 +23,25 @@ def get_feature_vector(song_name, year, dat, features_list):
     feature_vector = dat_song[features_list].values
     return feature_vector, song_repeated
 
+names = []
 # define a function to get the most similar songs
 def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type='wordcloud'):
     """
-    A function to get the most similar songs based on the cosine similarity of the features.
-    :param song_name: the name of the song (all letters)
-    :param year: the year of the song [int]
-    :param dat: the dataset
-    :param features_list: the list of features to be used for similarity calculation
-    :param top_n: the number of similar songs to be returned
-    :param plot_type: the type of plot to be used for visualization (wordcloud or barplot)
+    Fungsi untuk mendapatkan lagu dengan tingkat kemiripan tertinggi berdasarkan rumus cosine similarity pada semua feature/ciri-ciri.
+    :param song_name: Nama lagu (all letters)
+    :param year: Tahun dari lagu tersebut [int]
+    :param dat: dataset yang dipakai
+    :param features_list: List feature yang dipakai untuk perhitungan kemiripan
+    :param top_n: Banyaknya lagu yang akan direkomendasikan
+    :param plot_type: Jenis plot yang dipakai untuk visualisasi (Wordcloud atau barplot)
     """
     feature_vector, song_repeated = get_feature_vector(song_name, year, dat, features_list)
     feature_for_recommendation = dat[features_list].values
+    
     # calculate the cosine similarity
     similarities = cosine_similarity(feature_for_recommendation, feature_vector).flatten()
+    
+    
 
     # get the index of the top_n similar songs not including itself
     if song_repeated == 0:
@@ -43,6 +51,9 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
         
     # get the name, artist, and year of the most similar songs
     similar_songs = dat.iloc[related_song_indices][['name', 'artists', 'year']]
+    
+    names.append(song_name)
+    names.extend(dat.iloc[related_song_indices]['name'].tolist())
     
     fig, ax = plt.subplots(figsize=(7, 5))
     if plot_type == 'wordcloud':
@@ -89,7 +100,7 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
             plt.text(min_similarity*0.955, i, v, color='black', fontsize=8)
             
         plt.xlabel('Similarity', fontsize=15)
-        plt.ylabel('Song', fontsize=15)
+        # plt.ylabel('Song', fontsize=15)
         plt.xlim(min_similarity*0.95, max_similarity)
         
         # not show figure frame and ticks
@@ -98,5 +109,35 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
         
     else:
         raise Exception('Plot type must be either wordcloud or bar!')
+    
+    return fig
+
+def radar_chart(dat, features_list):
+    # Membuat Radar Chart
+    fig = go.Figure()
+    angles = list(dat[features_list].columns)
+    angles.append(angles[0])
+    layoutdict = dict(
+                radialaxis=dict(
+                visible=True,
+                range=[0, 1]
+                ))
+
+
+    for i in range(len(names)):
+        subset = dat[dat['name'] == names[i]]
+        data = [np.mean(subset[col]) for col in subset[features_list].columns]
+        data.append(data[0])
+        fig.add_trace(go.Scatterpolar(
+            r=data,
+            theta=angles,
+            fill='toself',
+            name=names[i]))
+
+        
+    fig.update_layout(
+            polar=layoutdict,
+            showlegend=True,template='plotly_dark'
+            )
     
     return fig
