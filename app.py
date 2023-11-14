@@ -90,7 +90,6 @@ def main():
         elif year == '':
             st.markdown("Tolong masukkan tahun lagunya!")
         else:
-            
             # show the most similar songs in wordcloud
             fig_cloud = show_similar_songs(song_name, year, dat, features, num_recommendations, plot_type='wordcloud')
             st.markdown(f"### Keren! Inilah rekomendasinya dari lagu \
@@ -105,8 +104,9 @@ def main():
             #Menampilkan perbandingan radar chart antara lagu yang dimasukkan dengan 5 lagu teratas
             fig_radar = radar_chart(dat, song_features_normalized)
             fig_radar.update_layout({"uirevision": "foo"}, overwrite=True)
+            figure_container = st.empty()
             st.markdown("### Gambaran Kemiripan Ciri-Ciri lagumu dengan Rekomendasinya!") 
-            st.plotly_chart(fig_radar)
+            figure_container.plotly_chart(fig_radar)
 
 if __name__ == "__main__":
     main()
