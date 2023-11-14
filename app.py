@@ -14,6 +14,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
+from io import BytesIO
+import plotly.io as pio
 
 from packages.search_song import search_song
 from packages.run_recommender import get_feature_vector, show_similar_songs, radar_chart
@@ -102,8 +104,11 @@ def main():
             
             #Menampilkan perbandingan radar chart antara lagu yang dimasukkan dengan 5 lagu teratas
             fig_radar = radar_chart(dat, song_features_normalized)
-            st.markdown("Gambaran Kemiripan Ciri-Ciri lagumu dengan Rekomendasinya!")
-            st.pyplot(fig_radar)
+            st.markdown("### Gambaran Kemiripan Ciri-Ciri lagumu dengan Rekomendasinya!")            
+            img_bytes = BytesIO()
+            pio.write_image(fig_radar, img_bytes, format='png')
+            img_bytes.seek(0)
+            st.image(img_bytes, use_column_width=True)
 
 if __name__ == "__main__":
     main()
