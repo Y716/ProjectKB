@@ -117,7 +117,6 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
 def radar_chart(dat, features_list):
     # Membuat Radar Chart
     fig = go.Figure()
-    
     angles = list(dat[features_list].columns)
     angles.append(angles[0])
     layoutdict = dict(
@@ -137,12 +136,12 @@ def radar_chart(dat, features_list):
             fill='toself',
             name=names[i]))
 
+    
+
     fig.update_layout(
         polar=layoutdict,
         showlegend=True,
         template='plotly_dark'
     )
-    
-       
     
     return fig
