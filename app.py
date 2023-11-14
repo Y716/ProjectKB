@@ -22,6 +22,7 @@ from packages.run_recommender import get_feature_vector, show_similar_songs, rad
 
 # load data
 dat = pd.read_csv('data/Processed/dat_for_recommender.csv')
+comparison_dat = pd.read_csv('data/Raw/data.csv')
 
 song_features_normalized = ['valence', 'acousticness', 'danceability', 'energy', 'instrumentalness', 'liveness', 'speechiness']
 song_features_not_normalized = ['duration_ms', 'key', 'loudness', 'mode', 'tempo']
@@ -102,7 +103,7 @@ def main():
             st.pyplot(fig_bar)
             
             #Menampilkan perbandingan radar chart antara lagu yang dimasukkan dengan 5 lagu teratas
-            fig_radar = radar_chart(dat, song_features_normalized)
+            fig_radar = radar_chart(comparison_dat, song_features_normalized)
             st.markdown("### Gambaran Kemiripan Ciri-Ciri lagumu dengan Rekomendasinya!") 
             st.plotly_chart(fig_radar)
 
