@@ -99,6 +99,9 @@ def main():
             fig_bar = show_similar_songs(song_name, year, dat, features, top_n=10, plot_type='bar')
             st.markdown("### Lihatlah lebih dekat dari 10 lagu rekomendasi untukmu!")
             st.pyplot(fig_bar)
+            
+            #Menampilkan perbandingan radar chart antara lagu yang dimasukkan dengan 5 lagu teratas
+            
 
 if __name__ == "__main__":
     main()

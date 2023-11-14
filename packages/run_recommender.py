@@ -48,12 +48,15 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
     if plot_type == 'wordcloud':
         # make a word cloud of the most similar songs and year, use the simalirity score as the size of the words
         similar_songs['name+year'] = similar_songs['name'] + ' (' + similar_songs['year'].astype(str) + ')'
+        
         # create a dictionary of song and their similarity
         song_similarity = dict(zip(similar_songs['name+year'], similarities[related_song_indices]))
+        
         # sort the dictionary by value
         song_similarity = sorted(song_similarity.items(), key=lambda x: x[1], reverse=True)
+        
         # # create a mask for the word cloud
-        # mask = np.array(Image.open("spotify-logo.png"))
+
         # create a word cloud
         wordcloud = WordCloud(width=1200, height=600, max_words=50, 
                             background_color='white', colormap='Set2').generate_from_frequencies(dict(song_similarity))
@@ -65,10 +68,13 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
     elif plot_type == 'bar':
         # plot the text of the most similar songs and year in order, like a stacked bar chart
         similar_songs['name+year'] = similar_songs['name'] + ' (' + similar_songs['year'].astype(str) + ')'
+        
         # create a dictionary of song and their similarity
         song_similarity = dict(zip(similar_songs['name+year'], similarities[related_song_indices]))
+        
         # sort the dictionary by value
         song_similarity = sorted(song_similarity.items(), key=lambda x: x[1], reverse=True)
+        
         # plot the text of the most similar songs and year in order, like a stacked bar chart
         plt.barh(range(len(song_similarity)), [val[1] for val in song_similarity], 
                  align='center', color=sns.color_palette('pastel', len(song_similarity)))
@@ -77,12 +83,15 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
         plt.title(f'{top_n} most similar songs to: {song_name} ({year})', fontsize=16)
         min_similarity = min(similarities[related_song_indices])
         max_similarity = max(similarities[related_song_indices])
+        
         # add song name on the top of each bar
         for i, v in enumerate([val[0] for val in song_similarity]):
             plt.text(min_similarity*0.955, i, v, color='black', fontsize=8)
-        # plt.xlabel('Similarity', fontsize=15)
-        # plt.ylabel('Song', fontsize=15)
+            
+        plt.xlabel('Similarity', fontsize=15)
+        plt.ylabel('Song', fontsize=15)
         plt.xlim(min_similarity*0.95, max_similarity)
+        
         # not show figure frame and ticks
         plt.box(False)
         plt.tick_params(axis='both', which='both', bottom=False, top=False, labelbottom=False, left=False, right=False, labelleft=False)
