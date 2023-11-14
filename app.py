@@ -105,10 +105,7 @@ def main():
             #Menampilkan perbandingan radar chart antara lagu yang dimasukkan dengan 5 lagu teratas
             fig_radar = radar_chart(dat, song_features_normalized)
             st.markdown("### Gambaran Kemiripan Ciri-Ciri lagumu dengan Rekomendasinya!")            
-            img_bytes = BytesIO()
-            pio.write_image(fig_radar, img_bytes, format='png')
-            img_bytes.seek(0)
-            st.image(img_bytes, use_column_width=True)
+            st.plotly_chart(fig_radar)
 
 if __name__ == "__main__":
     main()

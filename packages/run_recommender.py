@@ -52,8 +52,11 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
     # get the name, artist, and year of the most similar songs
     similar_songs = dat.iloc[related_song_indices][['name', 'artists', 'year']]
     
+    
+    
     names.append(song_name)
-    names.extend(dat.iloc[related_song_indices]['name'].tolist())
+    names.extend(similar_songs['name'].head().tolist())
+    # names.extend(dat.iloc[related_song_indices]['name'].tolist())
     
     fig, ax = plt.subplots(figsize=(7, 5))
     if plot_type == 'wordcloud':
