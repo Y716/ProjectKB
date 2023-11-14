@@ -142,6 +142,11 @@ def radar_chart(dat, features_list):
             fill='toself',
             name=names[i]))
 
+    fig.update_layout(
+        polar=layoutdict,
+        showlegend=True,
+        template='plotly_dark'
+    )
         
     
     return fig
