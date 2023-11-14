@@ -6,7 +6,6 @@ sns.set_palette("Set2")
 from wordcloud import WordCloud
 from sklearn.metrics.pairwise import cosine_similarity
 
-names = []
 
 def get_feature_vector(song_name, year, dat, features_list):
     print(dat.head())
@@ -52,7 +51,7 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
     # get the name, artist, and year of the most similar songs
     similar_songs = dat.iloc[related_song_indices][['name', 'artists', 'year']]
     
-    
+    names.clear()
     
     names.append(song_name)
     names.extend(similar_songs['name'].head().tolist())
@@ -143,6 +142,7 @@ def radar_chart(dat, features_list):
         showlegend=True,
         template='plotly_dark'
     )
-        
+    
+       
     
     return fig
