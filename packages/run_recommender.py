@@ -61,7 +61,7 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
     feature_for_recommendation = dat[features_list].values
     
     # calculate the cosine similarity
-    similarities = cosine_similarity_2d(dat_recommendation[features].values, feature_vector)
+    similarities = cosine_similarity_2d(feature_for_recommendation, feature_vector)
     similarities = np.array(similarities)
     
     
