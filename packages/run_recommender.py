@@ -60,13 +60,13 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
     feature_vector, song_repeated = get_feature_vector(song_name, year, dat, features_list)
     feature_for_recommendation = dat[features_list].values
     
-    # calculate the cosine similarity
+    # menghitung nilai kemiripannya dengna cosine similarity
     similarities = cosine_similarity_2d(feature_for_recommendation, feature_vector)
     similarities = np.array(similarities)
     
     
 
-    # get the index of the top_n similar songs not including itself
+    # mengambil index top_n, tidak termasuk lagu yang diinputkan
     if song_repeated == 0:
         related_song_indices = similarities.argsort()[-(top_n+1):][::-1][1:]
     else:
@@ -83,18 +83,19 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
     
     fig, ax = plt.subplots(figsize=(7, 5))
     if plot_type == 'wordcloud':
-        # make a word cloud of the most similar songs and year, use the simalirity score as the size of the words
+        # #Membuat Word cloud dari lagu dan tahun yang mirip, menggunakan nilai kemiripan untuk menentukan ukuran wordnya
+        
         similar_songs['name+year'] = similar_songs['name'] + ' (' + similar_songs['year'].astype(str) + ')'
         
-        # create a dictionary of song and their similarity
+        # Membuat dictionary dari lagu dan nilai kemiripannya
         song_similarity = dict(zip(similar_songs['name+year'], similarities[related_song_indices]))
         
-        # sort the dictionary by value
+        # Mengurutkan dictionarynya berdasarkan nilainya
         song_similarity = sorted(song_similarity.items(), key=lambda x: x[1], reverse=True)
         
-        # # create a mask for the word cloud
+    
 
-        # create a word cloud
+        # membuat word cloudnya
         wordcloud = WordCloud(width=1200, height=600, max_words=50, 
                             background_color='white', colormap='Set2').generate_from_frequencies(dict(song_similarity))
         plt.imshow(wordcloud, interpolation='bilinear')
@@ -103,16 +104,17 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
         plt.tight_layout(pad=0)
     
     elif plot_type == 'bar':
-        # plot the text of the most similar songs and year in order, like a stacked bar chart
+        # # Menggambarkan text dari lagu dan tahur termirip secara berurut dalam bentuk bar chart
+        
         similar_songs['name+year'] = similar_songs['name'] + ' (' + similar_songs['year'].astype(str) + ')'
         
-        # create a dictionary of song and their similarity
+        # Membuat dictionary dari lagu dan nilai kemiripannya
         song_similarity = dict(zip(similar_songs['name+year'], similarities[related_song_indices]))
         
-        # sort the dictionary by value
+        # Mengurutkan dictionarynya berdasarkan nilainya
         song_similarity = sorted(song_similarity.items(), key=lambda x: x[1], reverse=True)
         
-        # plot the text of the most similar songs and year in order, like a stacked bar chart
+        # Menggambarkan text dari lagu dan tahur termirip secara berurut dalam bentuk bar chart
         plt.barh(range(len(song_similarity)), [val[1] for val in song_similarity], 
                  align='center', color=sns.color_palette('pastel', len(song_similarity)))
         plt.yticks(range(len(song_similarity)), [val[0] for val in song_similarity])
@@ -121,7 +123,7 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
         min_similarity = min(similarities[related_song_indices])
         max_similarity = max(similarities[related_song_indices])
         
-        # add song name on the top of each bar
+        # Menambahkan nama lagu disetiap bar chart
         for i, v in enumerate([val[0] for val in song_similarity]):
             plt.text(min_similarity*0.955, i, v, color='black', fontsize=8)
             
@@ -129,7 +131,7 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
         # plt.ylabel('Song', fontsize=15)
         plt.xlim(min_similarity*0.95, max_similarity)
         
-        # not show figure frame and ticks
+        # menghilangkan frame dan tanda 
         plt.box(False)
         plt.tick_params(axis='both', which='both', bottom=False, top=False, labelbottom=False, left=False, right=False, labelleft=False)
         
