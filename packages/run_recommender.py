@@ -23,6 +23,29 @@ def get_feature_vector(song_name, year, dat, features_list):
     return feature_vector, song_repeated
 
 names = []
+
+def dot_product(vector_a, vector_b):
+    return sum(a * b for a, b in zip(vector_a, vector_b))
+
+def magnitude(vector):
+    return math.sqrt(sum(a**2 for a in vector))
+
+def cosine_similarity_2d(array1, array2):
+    
+    similarities = []
+    array2 = array2[0]  # Extract the single row from array2
+    print(array2)
+    print(len(array1))
+    for row in array1:
+        dot_product = np.dot(row, array2)
+        magnitude_a = np.linalg.norm(row)
+        magnitude_b = np.linalg.norm(array2)
+
+        similarity = dot_product / (magnitude_a * magnitude_b) if (magnitude_a != 0 and magnitude_b != 0) else 0
+        similarities.append(similarity)
+
+    return similarities
+
 # define a function to get the most similar songs
 def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type='wordcloud'):
     """
@@ -38,7 +61,8 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
     feature_for_recommendation = dat[features_list].values
     
     # calculate the cosine similarity
-    similarities = cosine_similarity(feature_for_recommendation, feature_vector).flatten()
+    similarities = cosine_similarity_2d(dat_recommendation[features].values, feature_vector)
+    similarities = np.array(similarities)
     
     
 
