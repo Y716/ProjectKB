@@ -63,6 +63,9 @@ def main():
     # add a search box for searching the song by giving capital letters and year
     st.markdown("### Siap untuk mendapatkan rekomendasi dari lagu yang kamu masukkan?")
     song_name = st.text_input('Masukkan judul lagunya')
+    # Filter options based on the search query
+    filtered_options = [option for option in dat['name'] if song_name.upper() in option.upper()]
+    st.write(filtered_options)
     if song_name != '':
         song_name = song_name.upper()
     year = st.text_input('Masukkan tahun dari lagu tersebut (contoh: 2019). \
