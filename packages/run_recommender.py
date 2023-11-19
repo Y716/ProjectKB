@@ -27,8 +27,6 @@ names = []
 def dot_product(vector_a, vector_b):
     return sum(a * b for a, b in zip(vector_a, vector_b))
 
-def magnitude(vector):
-    return math.sqrt(sum(a**2 for a in vector))
 
 def cosine_similarity_2d(array1, array2):
     
@@ -104,9 +102,10 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
         plt.tight_layout(pad=0)
     
     elif plot_type == 'bar':
+        similar_songs['artists'] = similar_songs['artists'].apply(lambda s: s[2:len(s)-2])
         # # Menggambarkan text dari lagu dan tahur termirip secara berurut dalam bentuk bar chart
         
-        similar_songs['name+year'] = similar_songs['name'] + ' (' + similar_songs['year'].astype(str) + ')'
+        similar_songs['name+year'] = similar_songs['name'] + ' - ' + similar_songs['artists'] +' (' + similar_songs['year'].astype(str) + ')'
         
         # Membuat dictionary dari lagu dan nilai kemiripannya
         song_similarity = dict(zip(similar_songs['name+year'], similarities[related_song_indices]))
