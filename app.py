@@ -11,9 +11,9 @@ date: 2023-11-14
 
 import pandas as pd
 import streamlit as st
+
 from packages.search_song import search_song
 from packages.run_recommender import get_feature_vector, show_similar_songs, radar_chart
-import re
 
 # load data
 dat = pd.read_csv('data/Processed/dat_for_recommender.csv')
@@ -40,11 +40,6 @@ st.markdown(
 )
 
 
-# Function to filter datasets based on user input for autocomplete
-def filter_datasets(user_input, datasets):
-    pattern = '.*?'.join(user_input)  # Insert a .*? between letters
-    regex = re.compile(pattern)
-    return [dataset for dataset in datasets if re.search(regex, dataset, re.IGNORECASE)]
 
 def main():
     st.markdown("# Sistem Rekomendasi Lagu hanya untukmu!")
@@ -63,15 +58,10 @@ def main():
     # add a search box for searching the song by giving capital letters and year
     st.markdown("### Siap untuk mendapatkan rekomendasi dari lagu yang kamu masukkan?")
     song_name = st.text_input('Masukkan judul lagunya', key="search_input")
+    # Filter options based on the search query
+    filtered_options = [option for option in dat['name'] if song_name.upper() in option.upper()]
+    st.write(filtered_options)
     
-    # Filter datasets based on user input
-    filtered_datasets = filter_datasets(song_name, dat['name'])
-
-    # Display matched datasets
-    st.write("Matched Datasets:")
-    for dataset in filtered_datasets:
-        st.write(dat[['name']])
-
     if song_name != '':
         song_name = song_name.upper()
     year = st.text_input('Masukkan tahun dari lagu tersebut (contoh: 2019). \
