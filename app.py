@@ -64,7 +64,7 @@ def main():
     song_name = st.text_input('Masukkan judul lagunya', key="search_input")
     
     # Filter datasets based on user input
-    filtered_datasets = filter_datasets(user_input, dat['name'])
+    filtered_datasets = filter_datasets(song_name, dat['name'])
 
     # Display matched datasets
     st.write("Matched Datasets:")
