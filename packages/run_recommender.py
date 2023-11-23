@@ -4,7 +4,6 @@ import plotly.graph_objects as go
 import numpy as np
 sns.set_palette("Set2")
 from wordcloud import WordCloud
-from sklearn.metrics.pairwise import cosine_similarity
 
 
 def get_feature_vector(song_name, year, dat, features_list):
@@ -26,7 +25,6 @@ names = []
 
 def dot_product(vector_a, vector_b):
     return sum(a * b for a, b in zip(vector_a, vector_b))
-
 
 def cosine_similarity_2d(array1, array2):
     
@@ -61,8 +59,6 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
     # menghitung nilai kemiripannya dengna cosine similarity
     similarities = cosine_similarity_2d(feature_for_recommendation, feature_vector)
     similarities = np.array(similarities)
-    
-    
 
     # mengambil index top_n, tidak termasuk lagu yang diinputkan
     if song_repeated == 0:
@@ -86,13 +82,11 @@ def show_similar_songs(song_name, year, dat, features_list, top_n=10, plot_type=
         similar_songs['name+year'] = similar_songs['name'] + ' (' + similar_songs['year'].astype(str) + ')'
         
         # Membuat dictionary dari lagu dan nilai kemiripannya
-        song_similarity = dict(zip(similar_songs['name+year'], similarities[related_song_indices]))
+        song_similarity = dict(zip(similar_songs['name+year'], similarities[related_song_indices])) 
         
         # Mengurutkan dictionarynya berdasarkan nilainya
         song_similarity = sorted(song_similarity.items(), key=lambda x: x[1], reverse=True)
         
-    
-
         # membuat word cloudnya
         wordcloud = WordCloud(width=1200, height=600, max_words=50, 
                             background_color='white', colormap='Set2').generate_from_frequencies(dict(song_similarity))
