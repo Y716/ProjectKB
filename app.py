@@ -13,6 +13,7 @@ import pandas as pd
 import streamlit as st
 from packages.search_song import search_song
 from packages.run_recommender import get_feature_vector, show_similar_songs, radar_chart
+import regex as re
 
 # load data
 dat = pd.read_csv('data/Processed/dat_for_recommender.csv')
