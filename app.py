@@ -39,6 +39,11 @@ st.markdown(
 )
 
 
+# Function to filter datasets based on user input for autocomplete
+def filter_datasets(user_input, datasets):
+    pattern = '.*?'.join(user_input)  # Insert a .*? between letters
+    regex = re.compile(pattern)
+    return [dataset for dataset in datasets if re.search(regex, dataset, re.IGNORECASE)]
 
 def main():
     st.markdown("# Sistem Rekomendasi Lagu hanya untukmu!")
@@ -57,6 +62,15 @@ def main():
     # add a search box for searching the song by giving capital letters and year
     st.markdown("### Siap untuk mendapatkan rekomendasi dari lagu yang kamu masukkan?")
     song_name = st.text_input('Masukkan judul lagunya', key="search_input")
+    
+    # Filter datasets based on user input
+    filtered_datasets = filter_datasets(user_input, dat['name'])
+
+    # Display matched datasets
+    st.write("Matched Datasets:")
+    for dataset in filtered_datasets:
+        st.write(dat[['name']])
+
     if song_name != '':
         song_name = song_name.upper()
     year = st.text_input('Masukkan tahun dari lagu tersebut (contoh: 2019). \
